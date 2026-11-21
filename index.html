@@ -176,13 +176,16 @@
 <section class="college-hero">
     <div class="hero-background" aria-hidden="true">
         <img class="hero-background-slide is-active"
-             src="images/cllg2.jpeg"
+             src="images/img2.png"
              alt="">
         <img class="hero-background-slide"
-             src="images/AIimg.jpeg"
+             src="images/img3.png"
              alt="">
         <img class="hero-background-slide hero-background-slide-alt"
-             src="images/cllg3.jpeg"
+             src="images/img4.png"
+             alt="">
+        <img class="hero-background-slide"
+             src="images/img1.png"
              alt="">
     </div>
 
@@ -243,9 +246,11 @@
         <div class="hero-visual">
 
             <img
-                src="images/AIimg.jpeg"
+                src="images/img2.png"
                 alt="College campus and academic building"
                 class="hero-campus-image"
+                id="heroCampusImage"
+                loading="eager"
             >
 
             <!-- Floating Information Card -->
@@ -290,6 +295,10 @@
                     type="button"
                     data-slide-index="2"
                     aria-label="Show background image 3"></button>
+            <button class="hero-background-indicator"
+                    type="button"
+                    data-slide-index="3"
+                    aria-label="Show background image 4"></button>
         </div>
         <button class="hero-background-arrow"
                 type="button"
@@ -1659,6 +1668,7 @@ navbarMenu.querySelectorAll("a").forEach((link) => {
 const heroCarousel = document.querySelector(".college-hero");
 const heroSlides = heroCarousel.querySelectorAll(".hero-background-slide");
 const heroIndicators = heroCarousel.querySelectorAll(".hero-background-indicator");
+const heroCampusImage = document.querySelector("#heroCampusImage");
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 let activeHeroSlide = 0;
 let heroAutoplay;
@@ -1669,6 +1679,14 @@ const showHeroSlide = (index) => {
     heroSlides.forEach((slide, slideIndex) => {
         slide.classList.toggle("is-active", slideIndex === activeHeroSlide);
     });
+
+    if (heroCampusImage) {
+        heroCampusImage.classList.add("is-changing");
+        window.setTimeout(() => {
+            heroCampusImage.src = heroSlides[activeHeroSlide].src;
+            heroCampusImage.classList.remove("is-changing");
+        }, reducedMotion.matches ? 0 : 180);
+    }
 
     heroIndicators.forEach((indicator, indicatorIndex) => {
         const isActive = indicatorIndex === activeHeroSlide;
@@ -1707,6 +1725,20 @@ heroIndicators.forEach((indicator) => {
         showHeroSlide(Number(indicator.dataset.slideIndex));
     });
 });
+
+let heroTouchStartX = 0;
+
+heroCarousel.addEventListener("touchstart", (event) => {
+    heroTouchStartX = event.changedTouches[0].clientX;
+}, { passive: true });
+
+heroCarousel.addEventListener("touchend", (event) => {
+    const distance = event.changedTouches[0].clientX - heroTouchStartX;
+
+    if (Math.abs(distance) > 45) {
+        showHeroSlide(activeHeroSlide + (distance < 0 ? 1 : -1));
+    }
+}, { passive: true });
 
 heroCarousel.addEventListener("mouseenter", stopHeroAutoplay);
 heroCarousel.addEventListener("mouseleave", startHeroAutoplay);

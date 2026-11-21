@@ -827,7 +827,7 @@ html {
     width: 100%;
     position: relative;
     overflow: hidden;
-    background: linear-gradient(120deg, #FFFFFF 35%, #FFF8DC 100%);
+    background: #FFFDF8;
     font-family: Arial, sans-serif;
 }
 
@@ -843,11 +843,15 @@ html {
     position: absolute;
     inset: 0;
     content: "";
-    background: linear-gradient(
-        120deg,
-        rgba(255, 255, 255, 0.3) 35%,
-        rgba(255, 241, 242, 0.34) 100%
-    );
+    /* background: linear-gradient(
+        90deg,
+        rgba(255, 253, 248, 0.92) 0%,
+        rgba(255, 253, 248, 0.82) 36%,
+        rgba(255, 253, 248, 0.42) 58%,
+        rgba(255, 253, 248, 0.10) 82%,
+        rgba(255, 253, 248, 0.04) 100%
+    ); */
+    z-index: 1;
 }
 
 .hero-background-slide {
@@ -863,7 +867,7 @@ html {
 }
 
 .hero-background-slide.is-active {
-    opacity: 1;
+    opacity: 0.58;
     transform: scale(1);
 }
 
@@ -896,6 +900,12 @@ html {
     max-width: 620px;
     position: relative;
     z-index: 2;
+    padding: 28px 30px;
+    background: rgba(255, 255, 255, 0.94);
+    border: 1px solid rgba(216, 243, 227, 0.9);
+    border-radius: 18px;
+    box-shadow: 0 18px 45px rgba(74, 32, 52, 0.08);
+    backdrop-filter: blur(5px);
 }
 
 .hero-badge {
@@ -1025,28 +1035,35 @@ html {
     position: relative;
     min-width: 0;
     z-index: 1;
+    padding-bottom: 58px;
 }
 
 .hero-campus-image {
     display: block;
     width: 100%;
-    height: 400px;
-
-    object-fit: cover;
+    height: auto;
+    object-fit: contain;
     object-position: center;
+    background: transparent;
 
     border: 5px solid #FFFFFF;
     border-radius: 20px;
 
     box-shadow: 0 20px 50px rgba(190, 24, 93, 0.16);
+    transition: opacity 0.35s ease, transform 0.6s ease;
+}
+
+.hero-campus-image.is-changing {
+    opacity: 0.35;
+    transform: scale(0.985);
 }
 
 /* FLOATING CARD */
 
 .hero-floating-card {
     position: absolute;
-    left: -25px;
-    bottom: 25px;
+    right: 18px;
+    bottom: 0;
     z-index: 3;
 
     display: flex;
@@ -1183,16 +1200,13 @@ html {
         font-size: 14px;
     }
 
-    .hero-campus-image {
-        height: 340px;
-    }
-
     .hero-highlights {
         gap: 14px;
     }
 
     .hero-floating-card {
-        left: -12px;
+        right: 10px;
+        bottom: 0;
     }
 }
 
@@ -1201,6 +1215,19 @@ html {
 ========================================== */
 
 @media (max-width: 700px) {
+    .hero-background::after {
+        background: linear-gradient(
+            180deg,
+            rgba(255, 253, 248, 0.98) 0%,
+            rgba(255, 253, 248, 0.93) 58%,
+            rgba(255, 253, 248, 0.18) 100%
+        );
+    }
+
+    .hero-background-slide.is-active {
+        opacity: 0.48;
+    }
+
     .hero-container {
         grid-template-columns: 1fr;
         padding: 45px 20px 55px;
@@ -1214,6 +1241,10 @@ html {
 
     .hero-content {
         max-width: 100%;
+        padding: 22px 18px;
+        border-radius: 14px;
+        background: rgba(255, 255, 255, 0.96);
+        box-shadow: 0 12px 30px rgba(74, 32, 52, 0.07);
     }
 
     .hero-badge {
@@ -1256,17 +1287,17 @@ html {
 
     .hero-visual {
         margin: 0 5px;
+        padding-bottom: 52px;
     }
 
     .hero-campus-image {
-        height: 290px;
         border-radius: 15px;
         border-width: 4px;
     }
 
     .hero-floating-card {
-        left: 12px;
-        bottom: -15px;
+        right: 10px;
+        bottom: 0;
         padding: 12px 15px;
     }
 
@@ -1320,9 +1351,6 @@ html {
         gap: 12px;
     }
 
-    .hero-campus-image {
-        height: 230px;
-    }
 }
 
 /* About Section */
@@ -4825,6 +4853,32 @@ html {
 
 :root[data-theme="dark"] .college-hero {
     background: var(--theme-background);
+}
+
+:root[data-theme="dark"] .hero-background::after {
+    background: linear-gradient(
+        90deg,
+        rgba(18, 28, 23, 0.88) 0%,
+        rgba(18, 28, 23, 0.78) 38%,
+        rgba(18, 28, 23, 0.48) 58%,
+        rgba(18, 28, 23, 0.18) 82%,
+        rgba(18, 28, 23, 0.10) 100%
+    );
+}
+
+:root[data-theme="dark"] .hero-content {
+    background: rgba(25, 37, 31, 0.94);
+    border-color: rgba(71, 85, 105, 0.78);
+}
+
+:root[data-theme="dark"] .hero-content h1,
+:root[data-theme="dark"] .hero-description,
+:root[data-theme="dark"] .hero-highlight {
+    color: #F8FAFC;
+}
+
+:root[data-theme="dark"] .hero-content h1 span {
+    color: #FDA4AF;
 }
 
 :root[data-theme="dark"] .about-section {
